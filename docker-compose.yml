@@ -1,0 +1,22 @@
+networks:
+  isp_network:
+    driver: bridge 
+    ipam:
+      config:
+        - subnet: 192.168.0.0/24
+          gateway: 192.168.0.1
+
+services:
+   portal:
+    container_name: ${PORTAL_CONTAINER_NAME}
+    build:
+      context: ./portal
+      dockerfile: Dockerfile
+    networks:
+       isp_network:
+          ipv4_address: ${PORTAL_IPADDRESS}
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    
